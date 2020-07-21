@@ -11,6 +11,13 @@ import os, json
 from pprint import pprint
 AUTHFILE=os.path.join("..", "auth.json")
 
+def printURLs():
+    createKeys={"bitstamp": "https://www.bitstamp.net/account/security/api/",
+                "bittrex" : "https://global.bittrex.com/Manage?view=api"}
+    print("create READ ONLY keys in these places:")
+    pprint(createKeys)
+    print()
+
 def loadOrNew(authfile):
     try:
         with open(authfile) as f:
@@ -54,7 +61,26 @@ def askAndAddOne(authfile=AUTHFILE):
     print("Repeat with the next one, if you want to.")
 
 
+def credentials(exchange_name=None, authfile=AUTHFILE):
+    """
+    read all credentials, return all of them, or only for one exchange 
+    """
+    try:
+        with open(authfile) as f:
+            A = json.load(f)
+        if not exchange_name:
+            keys=A
+        else:
+            keys=A[exchange_name]
+    except:
+        msg="credentials for '%s' missing from auth file, or no auth file. Call addAuth.py." % exchange_name
+        raise Exception(msg)
+    
+    return keys
+
+
 if __name__ == '__main__':
+    printURLs()
     askAndAddOne()
     
     
