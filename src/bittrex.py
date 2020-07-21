@@ -13,13 +13,7 @@ import hashlib
 import requests
 from pprint import pprint
 
-def auth(authfile=AUTHFILE):
-    """
-    read all credentials
-    """
-    with open(authfile) as f: # if this fails, then the AUTHFILE is missing. Call addAuth.py to create it.
-        d = json.load(f)
-    return d
+from addAuth import credentials
 
 def parseData(data):
     """
@@ -72,17 +66,13 @@ def bittrexWrapped(results):
     Can later easily be stuck into a threaded thingy. 
     Inserts its results in results dict. Python dicts are threadsafe.
     """
-    A=auth()
     exchange_name="bittrex"
-    try:
-        keys=A[exchange_name]
-    except:
-        print("credentials for '' missing from auth file. Call addAuth.py.")
-    else:
-        afn=keys["account friendly name"]
-        a, s = keys["API key"], keys["SECRET key"]
-        data=bittrexAuthenticatedCall(a, s, call="balances")
-        results[exchange_name] = {afn: data}
+    keys=credentials(exchange_name)
+    
+    afn=keys["account friendly name"]
+    a, s = keys["API key"], keys["SECRET key"]
+    data=bittrexAuthenticatedCall(a, s, call="balances")
+    results[exchange_name] = {afn: data}
     
 if __name__ == '__main__':
     results={}
