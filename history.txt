@@ -1,4 +1,4 @@
 
 
 v0.1.0 21/7/2020 03:15-
-v0.0.1  8/7/2020 2h asked 4 exchanges for how Python RPC API wrapper libraries
+v0.0.1  8/7/2020 2h asked 4 exchanges which Python RPC API wrapper library to choose
