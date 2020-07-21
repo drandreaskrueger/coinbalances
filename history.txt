@@ -1,4 +1,4 @@
+5 hours
 
-
-v0.1.0 21/7/2020 03:15-
+v0.1.0 21/7/2020 03:15-06:15 credentials file handling + bittrex + bitstamp first raw versions are working, hooray.
 v0.0.1  8/7/2020 2h asked 4 exchanges which Python RPC API wrapper library to choose
