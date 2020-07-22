@@ -7,9 +7,8 @@ Created on 21 Jul 2020
 import hashlib
 import hmac
 import time
-import requests
+import requests # pip3 install requests
 import uuid
-import sys
 from urllib.parse import urlencode
 
 from pprint import pprint
@@ -92,3 +91,5 @@ if __name__ == '__main__':
     results={}
     bitstampWrapped(results)
     pprint(results)
+    
+    
