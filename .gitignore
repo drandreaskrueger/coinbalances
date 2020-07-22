@@ -1,5 +1,5 @@
-/.project
-/.pydevproject
-/auth.json
+.project
+.pydevproject
+auth.json
 __pycache__
-/env/
+env
