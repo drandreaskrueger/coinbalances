@@ -13,7 +13,12 @@ AUTHFILE=os.path.join("..", "auth.json")
 
 def printURLs():
     createKeys={"bitstamp": "https://www.bitstamp.net/account/security/api/",
-                "bittrex" : "https://global.bittrex.com/Manage?view=api"}
+                "bittrex" : "https://global.bittrex.com/Manage?view=api",
+                "bitmexApi" : {"info" : "https://www.bitmexApi.com/api/explorer/#!/User/User_getWallet",
+                            "keys" : "https://www.bitmexApi.com/app/apiKeys",
+                            "rights suggested" : "Order Cancel"}
+    
+    }
     print("create READ ONLY keys in these places:")
     pprint(createKeys)
     print()
