@@ -2,3 +2,4 @@
 /.pydevproject
 /auth.json
 __pycache__
+/env/
