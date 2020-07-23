@@ -65,13 +65,17 @@ def bitmex_http(api_key, api_secret):
 
 def bitmexWrapped(results):
     exchange_name="bitmex"
-    keys=credentials(exchange_name)
-    a, s = keys["API key"], keys["SECRET key"]
-    # print(a), print(s)
-    afn=keys["account friendly name"]
-    # data = testing_README(a, s, 'balance')
-    # data=bitmex_funds(a, s)
-    data=bitmex_http(a, s)
+    try:
+        keys=credentials(exchange_name)
+        a, s = keys["API key"], keys["SECRET key"]
+        # print(a), print(s)
+        afn=keys["account friendly name"]
+        # data = testing_README(a, s, 'balance')
+        # data=bitmex_funds(a, s)
+        data=bitmex_http(a, s)
+    except Exception as e:
+        print ("ERROR: (%s) %s ... returning EMPTY answer instead." % (type(e), e))
+        afn, data= "", {}
     results[exchange_name] = {afn: data}
 
 
