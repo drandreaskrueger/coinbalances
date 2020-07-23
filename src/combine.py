@@ -14,11 +14,19 @@ CALLS=[binance.binanceWrapped,
        bittrex.bittrexWrapped,
        bitmexApi.bitmexWrapped]
 
-def call_all_exchanges_threaded(calls=CALLS, timeout=10):
+class artificialProblem(Exception):
+    pass
+
+def call_all_exchanges_threaded(calls=CALLS, timeout=10, causeTrouble=False):
     """
     multi-threaded execution of calls, waiting at most 'timeout' seconds.
     returns combined results dict.
     """
+    
+    if causeTrouble:
+        print ("Some printing sometimes happens doesn't it?")
+        raise artificialProblem("It was YOU who asked for trouble....")
+    
     threads, results = [], {}
     for c in calls:
         t=threading.Thread(target=c, args=(results,))
@@ -37,6 +45,9 @@ def pandas_whole_table():
     pandas.set_option('display.width', 300)
 
 
+class coinbalances_no_coins_error(Exception): pass
+class coinbalances_no_accounts_error(Exception): pass
+
 def one_table(API_results):
     """
     pass 1:  collect all exchanges and coin names
@@ -44,6 +55,7 @@ def one_table(API_results):
     pass 2:  insert all balances into large table filled with zeroes
     finally: 'total' column
     """
+
     columns, coins = [], []
     for exchange, friendly_name_and_balances in API_results.items():
         for friendly_name, balances in friendly_name_and_balances.items():
@@ -54,11 +66,16 @@ def one_table(API_results):
             coins.extend( balances.keys() )
             
     coins = sorted(list(set(coins))) # make coins list unique and sort alphabetically
-    #print (columns); print (coins)
+    
+    if not len(columns):
+        raise coinbalances_no_accounts_error("No exchange APIkey&secret found, run addAuth.py to add credentials to auth.json.")
+    if not len(coins):
+        raise coinbalances_no_coins_error("Why bother if you own no coins on the given exchanges?")
     
     # empty table:
     df = pandas.DataFrame(numpy.zeros((len(coins), len(columns))), 
                           index=coins, columns=columns)
+    df.index.name="currency"
     
     for exchange, friendly_name_and_balances in API_results.items():
         for friendly_name, balances in friendly_name_and_balances.items():
@@ -72,6 +89,7 @@ def one_table(API_results):
     # sum over all columns, and resort the columns
     df["total"] = df.sum(axis=1)
     df = df [["total"] + sorted(columns)]
+    
     return df
 
 if __name__ == '__main__':
