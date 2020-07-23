@@ -22,7 +22,9 @@ def parseData(data):
     * what is available what is total
     * rename keys to standardized naming
     """
-    return [d for d in data if (float(d["available"])>0 or float(d["total"])>0)] 
+    return dict([(b['currencySymbol'], float(b['total'])) 
+                 for b in data 
+                 if (float(b["available"])>0 or float(b["total"])>0)]) 
 
 
 def bittrexAuthenticatedCall(apiKey, apiSecret, call="orders", method = "GET", timeout=10):
@@ -56,22 +58,25 @@ def bittrexAuthenticatedCall(apiKey, apiSecret, call="orders", method = "GET", t
     
     data = requests.get(uri,data = payload, headers = header,timeout=timeout).json()
     
-    data = parseData(data)
-    
     return data
     
 def bittrexWrapped(results):
     """
     The "no parameters needed" wrapped version of the balances call.
-    Can later easily be stuck into a threaded thingy. 
+    Can later easily be stuck into a combine thingy. 
     Inserts its results in results dict. Python dicts are threadsafe.
     """
     exchange_name="bittrex"
-    keys=credentials(exchange_name)
-    
-    afn=keys["account friendly name"]
-    a, s = keys["API key"], keys["SECRET key"]
-    data=bittrexAuthenticatedCall(a, s, call="balances")
+    try:
+        
+        keys=credentials(exchange_name)
+        
+        afn=keys["account friendly name"]
+        a, s = keys["API key"], keys["SECRET key"]
+        data = parseData( bittrexAuthenticatedCall(a, s, call="balances") )
+    except Exception as e:
+        print ("ERROR: (%s) %s ... returning EMPTY answer instead." % (type(e), e))
+        afn, data= "", {}
     results[exchange_name] = {afn: data}
     
 if __name__ == '__main__':

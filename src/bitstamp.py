@@ -13,6 +13,7 @@ from urllib.parse import urlencode
 
 from pprint import pprint
 
+# python 2 is dead, but just in case:
 # if sys.version_info.major >= 3:
 #    from urllib.parse import urlencode
 #else:
@@ -20,12 +21,22 @@ from pprint import pprint
 
 from addAuth import credentials
 
+def parseData(data):
+    """
+    takes in exchange answer, selects the *_balance entries, shortens the name, and returns as dict
+    """
+    balances = dict([(n.split("_")[0].upper(), 
+                      b) 
+                     for n, b in data.items() 
+                     if n.endswith("_balance")])
+    return balances
+
 # def bitstampCall(api_key = 'api_key', API_SECRET = b'api_key_secret'):
 def bitstampCall(api_key = 'api_key', api_secret = 'api_secret', call='user_transactions'):
     """
     Authentication examples:
-    https://www.bitstamp.net/api/#error-code-example
-    and then modified by me
+        https://www.bitstamp.net/api/#error-code-example
+    and then modified a little bit by me
     """
     API_SECRET=api_secret.encode('UTF-8') # turn string to bytes, for hmac.new(API_SECRET, ...) function
     
@@ -79,11 +90,15 @@ def bitstampCall(api_key = 'api_key', api_secret = 'api_secret', call='user_tran
 
 def bitstampWrapped(results):
     exchange_name="bitstamp"
-    keys=credentials(exchange_name)
-    a, s = keys["API key"], keys["SECRET key"]
-    afn=keys["account friendly name"]
-        
-    data = bitstampCall(a, s, 'balance')
+    try:
+        keys=credentials(exchange_name)
+        a, s = keys["API key"], keys["SECRET key"]
+        afn=keys["account friendly name"]
+            
+        data = parseData ( bitstampCall(a, s, 'balance') )
+    except Exception as e:
+        print ("ERROR: (%s) %s ... returning EMPTY answer instead." % (type(e), e))
+        afn, data= "", {}
     results[exchange_name] = {afn: data}
     
 
