@@ -1,6 +1,6 @@
-8 hours
+12 hours
 
-v0.3.0 23/7/2020 03:00-      binance ~ready; multithreaded calling; combine into one table
+v0.3.0 23/7/2020 03:00-07:00 binance ~ready; multithreaded calling; combine into one table; bottle app; heroku ideas; security hints.
 v0.2.0 21/7/2020 23:42-02:17 bitmex ready
 v0.1.1 21/7/2020 06:15-06:45 contacting binance on their support ticket, looking at bitmex library
 v0.1.0 21/7/2020 03:15-06:15 credentials file handling + bittrex + bitstamp first raw versions are working, hooray.
