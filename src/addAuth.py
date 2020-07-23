@@ -4,7 +4,8 @@ Created on 21 Jul 2020
 @author: andreas
 
 @TODO: (not my problem but) if there are several accounts at the same exchange, 
-       turn the dict into a list, or use the 'account friendly name' as main key.
+       turn the dict into a list, 
+       or use the 'account friendly name' as main key of the dict.
 '''
 
 import os, json
@@ -12,16 +13,24 @@ from pprint import pprint
 AUTHFILE=os.path.join("..", "auth.json")
 
 def printURLs():
-    createKeys={"bitstamp": "https://www.bitstamp.net/account/security/api/",
-                "bittrex" : "https://global.bittrex.com/Manage?view=api",
-                "bitmexApi" : {"info" : "https://www.bitmexApi.com/api/explorer/#!/User/User_getWallet",
-                            "keys" : "https://www.bitmexApi.com/app/apiKeys",
-                            "rights suggested" : "Order Cancel"}
+    exchanges={"bitstamp": {"keys": "https://www.bitstamp.net/account/security/api/",
+                            "rights suggested" : "Account balance, User transactions",
+                            "API infos" : "https://www.bitstamp.net/api/"},
+               "bittrex" : {"keys": "https://global.bittrex.com/Manage?view=api",
+                            "rights suggested": "READ INFO yes, TRADE no, WITHDRAW no",
+                            "API infos" : "https://bittrex.github.io/api/v3"},
+               "bitmex" : {"API infos" : "https://www.bitmexApi.com/api/explorer/#!/User/User_getWallet",
+                           "keys" : "https://www.bitmexApi.com/app/apiKeys",
+                           "rights suggested" : "- (read only)"},
+               "binance" : {"keys" : "https://www.binance.com/en/usercenter/settings/api-management",
+                            "rights suggested": "Edit restrictions ... DISABLE Enable Trading ... Save",
+                            "API infos": "https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data"},
+               }
     
-    }
     print("create READ ONLY keys in these places:")
-    pprint(createKeys)
+    pprint(exchanges, width=100)
     print()
+    return exchanges
 
 def loadOrNew(authfile):
     try:
@@ -38,10 +47,21 @@ def loadOrNew(authfile):
 
 
 def ask():
-    exchange_name = input("exchange name: ")
+    """
+    none of the answers is allowed to be empty
+    """
+    
+    answer = ""
+    while not answer:
+        answer = input("exchange name: ")
+    exchange_name = answer 
+    
     keys=[]
     for q in ("API key", "SECRET key", "account friendly name"):
-        keys.append((q, input("%s: " % q)))
+        answer=""
+        while not answer:
+            answer = input("%s: " % q)
+        keys.append((q, answer))
        
     return exchange_name, keys
 
@@ -58,6 +78,7 @@ def askAndAddOne(authfile=AUTHFILE):
     d = loadOrNew(authfile)
     
     print ("Tell me details about one new exchange, and I will append them to the '%s' conf file." % authfile)
+    print()
     exchange_name, keys = ask()
     d[exchange_name] = dict(keys)
     # pprint(d)
