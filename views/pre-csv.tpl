@@ -1,9 +1,9 @@
 <html>
   <head>
-    <title>coinbalances CSV as webpage</title>
+    <title>coinbalances CSV for copy paste</title>
   </head>
   <body>
-      <h1>coinbalances CSV as webpage:</h1>
+      <h1>coinbalances CSV for copy paste:</h1>
       <pre>{{output}}</pre>
   </body>
 </html>
