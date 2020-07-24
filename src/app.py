@@ -7,12 +7,12 @@ Created on 23 Jul 2020
 import os, sys
 from io import StringIO
 
-import bottle # pip3 install bottle
+import pandas, bottle # pip3 install pandas bottle
 from bottle import route, get, template, redirect, static_file, error, run
 import combine
 
 STATIC = './static/'
-# perhaps the views folder is one up:
+# perhaps the views & static folder are one up:
 if "src" == os.getcwd().split(os.sep)[-1]:  
     bottle.TEMPLATE_PATH.insert(0, '../views')
     STATIC = '../static/'
@@ -30,8 +30,11 @@ def get_favicon():
     return static_file('favicon.ico', root=STATIC)
     
 
-
 def thisIsWhereTheMagicHappens():
+    """
+    The combined CSV is the result in a good case.
+    Error messages and other output in a bad case.
+    """
 
     # in case anything goes wrong, we want to see the errors instead of the CSV:
     logging=""
@@ -72,6 +75,14 @@ def csv():
 def pre():
     data = thisIsWhereTheMagicHappens()
     return template('pre-csv', output=data)
+
+@route('/coinbalances.table')
+def table():
+    data = thisIsWhereTheMagicHappens()
+    df = pandas.read_csv(StringIO(data)) 
+    ht=df.to_html(border=0) 
+    return template('html-table', output=ht)
+
 
 @error(404)
 def error404(error):
