@@ -10,7 +10,6 @@ import time
 import requests # pip3 install requests
 import uuid
 from urllib.parse import urlencode
-
 from pprint import pprint
 
 # python 2 is dead, but just in case:
@@ -20,6 +19,7 @@ from pprint import pprint
 #    from urllib import urlencode
 
 from authentication import credentials
+
 
 def parseData(data):
     """
@@ -31,13 +31,14 @@ def parseData(data):
                      if n.endswith("_balance")])
     return balances
 
-# def bitstampCall(api_key = 'api_key', API_SECRET = b'api_key_secret'):
+
 def bitstampCall(api_key = 'api_key', api_secret = 'api_secret', call='user_transactions'):
     """
     Authentication examples:
         https://www.bitstamp.net/api/#error-code-example
-    and then modified a little bit by me
+    and then modified a little bit by me; already gave them feedback how to simplify this a bit.
     """
+    
     API_SECRET=api_secret.encode('UTF-8') # turn string to bytes, for hmac.new(API_SECRET, ...) function
     
     timestamp = str(int(round(time.time() * 1000)))
@@ -88,8 +89,12 @@ def bitstampCall(api_key = 'api_key', api_secret = 'api_secret', call='user_tran
     return r.json()
     
 
-def bitstampWrapped(results):
-    exchange_name="bitstamp"
+def bitstampWrapped(results, exchange_name="bitstamp"):
+    """
+    The "no parameters needed" wrapped version of the balances call.
+    Can later easily be stuck into a multithreaded combine thingy.
+    Inserts its results in results dict. Python dicts are threadsafe.
+    """
     try:
         keys=credentials(exchange_name)
         a, s = keys["API key"], keys["SECRET key"]

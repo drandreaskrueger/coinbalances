@@ -3,15 +3,15 @@ Created on 21 Jul 2020
 
 @author: andreas
 
-@info If you would like to get the Available and Wallet Balance from our API, 
-      you can use the /user/margin endpoint as it returns a value for both walletBalance and availableMargin.
-      In the following link, your can find our official Python API connectors. 
-      https://github.com/BitMEX/api-connectors/tree/master/official-ws/python
-      yes but. initially worked, but then not anymore.
-      
-      switching to http RPC instead:
-
+@info support ticket:
+        If you would like to get the Available and Wallet Balance from our API, 
+        you can use the /user/margin endpoint as it returns a value for both walletBalance and availableMargin.
+        In the following link, your can find our official Python API connectors. 
+        https://github.com/BitMEX/api-connectors/tree/master/official-ws/python
+      Yes but. Initially it worked, but then not anymore. No idea why.
+      So, switching to http RPC instead:
 '''
+
 from pprint import pprint
 # import json
 import bitmex # pip3 install bitmex
@@ -60,11 +60,15 @@ def bitmex_http(api_key, api_secret):
     # pprint(res)
     BTC=res[0]['amount']/100000000.0
     # print(BTC)
-    return {'BTC' : BTC}
+    return {'BTC' : BTC}  # Yes, this only looks at the BTC balance. Might be incomplete. We will see.
     
 
-def bitmexWrapped(results):
-    exchange_name="bitmex"
+def bitmexWrapped(results, exchange_name="bitmex"):
+    """
+    The "no parameters needed" wrapped version of the balances call.
+    Can later easily be stuck into a multithreaded combine thingy.
+    Inserts its results in results dict. Python dicts are threadsafe.
+    """
     try:
         keys=credentials(exchange_name)
         a, s = keys["API key"], keys["SECRET key"]

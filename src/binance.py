@@ -5,14 +5,11 @@ Created on 23 Jul 2020
 '''
 
 from pprint import pprint
-
 import time, hmac, hashlib
-
-    
-import requests
-# from requests_http_signature import HTTPSignatureAuth as sign
+import requests # pip install requests
 
 from authentication import credentials
+
 
 def parseData(data):
     """
@@ -24,6 +21,7 @@ def parseData(data):
                 for b in data['balances'] 
                 if (float(b['free']) > 0 or float(b['locked']) > 0)]
     return dict(nonempty) 
+
 
 def binance_example_given_by_support(api_key, api_secret, call='account'):
     """
@@ -45,6 +43,11 @@ def binance_example_given_by_support(api_key, api_secret, call='account'):
     
 
 def binanceWrapped(results, exchange_name="binance"):
+    """
+    The "no parameters needed" wrapped version of the balances call.
+    Can later easily be stuck into a multithreaded combine thingy.
+    Inserts its results in results dict. Python dicts are threadsafe.
+    """
     try:
         keys=credentials(exchange_name)
         a, s = keys["API key"], keys["SECRET key"]
@@ -64,5 +67,3 @@ if __name__ == '__main__':
     results={}
     binanceWrapped(results)
     pprint(results)
-
-

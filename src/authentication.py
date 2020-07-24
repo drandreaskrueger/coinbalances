@@ -3,9 +3,16 @@ Created on 21 Jul 2020
 
 @author: andreas
 
-@TODO: (not my problem but) if there are several accounts at the same exchange, 
-       turn the dict into a list, 
-       or use the 'account friendly name' as main key of the dict.
+@TODO: (not my problem but) if there are several accounts at the SAME exchange, 
+       only the last one will survive because the older one gets overwritten. 
+       
+       suggestion for a fix, instead of:
+       {"exchangeName": {"SECRET key": "SECRETkey", "API key": "APIkey", "account friendly name": "account001"}}
+       use a tuple as key for the dictionary:
+       { ("exchangeName", "account001") : {"SECRET key": "SECRETkey", "API key": "APIkey"}}
+       and then adapt the functions here.
+       And elsewhere because then also the 'friendly_name' has to be passed to credentials().
+       Many other solutions are possible too, just think. Again: not my problem, I have 1 account per exchange. 
 '''
 
 import os, json
@@ -20,9 +27,8 @@ AUTH_FILE=os.path.join("..", "auth.json") # only read if AUTH_ENV doesn't exist.
 
 def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
     """
-    first try environment variable, only if that is not set, read file.
-    
-    read all credentials, return all of them, or only for one exchange 
+    first try environment variable; only if that is not set, read file.
+    read all credentials, return all of them, or only for one exchange.
     """
 
     try:
@@ -67,14 +73,18 @@ EXCHANGES={"bitstamp": {"keys": "https://www.bitstamp.net/account/security/api/"
 
 def printURLs():
     """
-    printed when adding new creds
+    printed when adding new creds. Obsolete now, below is better user UX.
     """
     print("create READ ONLY keys in these places:")
     pprint(EXCHANGES, width=100)
     print()
     return EXCHANGES
 
+
 def loadOrNew(authfile):
+    """
+    Load creds. If there is no file yet, return an empty dict.
+    """
     try:
         with open(authfile) as f:
             d = json.load(f)
@@ -92,7 +102,6 @@ def ask():
     """
     none of the answers is allowed to be empty
     """
-    
     answer = ""
     while not answer or answer not in EXCHANGES:
         answer = input("exchange name: ")
@@ -116,6 +125,9 @@ def ask():
 
 
 def writeAndFeedback(d, authfile):
+    """
+    to disk.
+    """
     with open(authfile, "w") as f:
         json.dump(d, f)
         
@@ -123,6 +135,9 @@ def writeAndFeedback(d, authfile):
 
 
 def askAndAddOne(authfile=AUTH_FILE):
+    """
+    load, add one, save.
+    """
 
     d = loadOrNew(authfile)
     
@@ -139,7 +154,6 @@ def askAndAddOne(authfile=AUTH_FILE):
 
 if __name__ == '__main__':
     # c=credentials(exchange_name="bittrex"); print(c); exit()
-    
     # printURLs()
     askAndAddOne()
     

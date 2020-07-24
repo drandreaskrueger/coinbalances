@@ -13,6 +13,7 @@ from pprint import pprint
 
 from authentication import credentials
 
+
 def parseData(data):
     """
     e.g. kick out empty balances
@@ -28,7 +29,7 @@ def parseData(data):
 def bittrexAuthenticatedCall(apiKey, apiSecret, call="orders", method = "GET", timeout=10):
     """
     bittrex support: We do not offer an official python wrapper, 
-    but here is some example code for an authenticated GET request. 
+                     but here is some example code for an authenticated GET request. 
     
     Then modified by me.
     """
@@ -58,17 +59,14 @@ def bittrexAuthenticatedCall(apiKey, apiSecret, call="orders", method = "GET", t
     
     return data
     
-def bittrexWrapped(results):
+def bittrexWrapped(results, exchange_name="bittrex"):
     """
     The "no parameters needed" wrapped version of the balances call.
-    Can later easily be stuck into a combine thingy. 
+    Can later easily be stuck into a multithreaded combine thingy.
     Inserts its results in results dict. Python dicts are threadsafe.
     """
-    exchange_name="bittrex"
     try:
-        
         keys=credentials(exchange_name)
-        
         afn=keys["account friendly name"]
         a, s = keys["API key"], keys["SECRET key"]
         data = parseData( bittrexAuthenticatedCall(a, s, call="balances") )
