@@ -8,13 +8,18 @@ import threading, time, warnings
 import pandas, numpy # pip install pandas
 #from pprint import pprint
 
+# if you ever want to extend this to other exchanges, plug'em in here:
 import binance, bitstamp, bittrex, bitmexApi
 CALLS=[binance.binanceWrapped,
        bitstamp.bitstampWrapped,
        bittrex.bittrexWrapped,
        bitmexApi.bitmexWrapped]
 
+
 class artificialProblem(Exception):
+    """
+    Deliberately thrown exception to see how downstream functions react to it.
+    """
     pass
 
 def call_all_exchanges_threaded(calls=CALLS, timeout=10, causeTrouble=False):
@@ -57,6 +62,7 @@ def one_table(API_results):
     finally: 'total' column
     """
 
+    # PASS 1
     columns, coins = [], []
     for exchange, friendly_name_and_balances in API_results.items():
         for friendly_name, balances in friendly_name_and_balances.items():
@@ -68,6 +74,7 @@ def one_table(API_results):
             
     coins = sorted(list(set(coins))) # make coins list unique and sort alphabetically
     
+    # error and warning:
     if not len(columns):
         raise coinbalances_no_accounts_error("No exchange APIkey&secret found, run authentication.py to add credentials to auth.json.")
     if not len(coins):
@@ -78,6 +85,7 @@ def one_table(API_results):
                           index=coins, columns=columns)
     df.index.name="currency"
     
+    # PASS 2:
     for exchange, friendly_name_and_balances in API_results.items():
         for friendly_name, balances in friendly_name_and_balances.items():
             if friendly_name=="":
@@ -92,6 +100,7 @@ def one_table(API_results):
     df = df [["total"] + sorted(columns)]
     
     return df
+
 
 if __name__ == '__main__':
     results=call_all_exchanges_threaded()
