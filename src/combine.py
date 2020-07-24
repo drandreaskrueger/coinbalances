@@ -45,8 +45,9 @@ def pandas_whole_table():
     pandas.set_option('display.width', 300)
 
 
-class coinbalances_no_coins_warning(Exception): pass
 class coinbalances_no_accounts_error(Exception): pass
+class coinbalances_no_coins_warning(UserWarning): pass
+
 
 def one_table(API_results):
     """
