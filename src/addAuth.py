@@ -10,9 +10,45 @@ Created on 21 Jul 2020
 
 import os, json
 from pprint import pprint
-AUTHFILE=os.path.join("..", "auth.json")
+AUTH_ENV="COINBALANCES_AUTH" # this overrides the following file
+AUTH_FILE=os.path.join("..", "auth.json") # only read if AUTH_ENV doesn't exist.
+
+############################################
+# read access:
+# EITHER environment variable OR auth file
+############################################
+
+def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
+    """
+    first try environment variable, only if that is not set, read file.
+    
+    read all credentials, return all of them, or only for one exchange 
+    """
+    pprint(os.environ)
+    j = os.getenv(env_variable)
+    print (j); return j
+    
+    try:
+        with open(authfile) as f:
+            A = json.load(f)
+        if not exchange_name:
+            keys=A
+        else:
+            keys=A[exchange_name]
+    except:
+        msg="credentials for '%s' missing from auth file / env variable, or there is no auth file / variable. Call addAuth.py." % exchange_name
+        raise Exception(msg)
+    
+    return keys
+
+
+###########################
+# all this is file based:
 
 def printURLs():
+    """
+    printed when adding new creds
+    """
     exchanges={"bitstamp": {"keys": "https://www.bitstamp.net/account/security/api/",
                             "rights suggested" : "Account balance, User transactions",
                             "API infos" : "https://www.bitstamp.net/api/"},
@@ -73,7 +109,7 @@ def writeAndFeedback(d, authfile):
     print("Written %d entries to file: %s" % (len(d), authfile))
 
 
-def askAndAddOne(authfile=AUTHFILE):
+def askAndAddOne(authfile=AUTH_FILE):
 
     d = loadOrNew(authfile)
     
@@ -87,25 +123,10 @@ def askAndAddOne(authfile=AUTHFILE):
     print("Repeat with the next one, if you want to.")
 
 
-def credentials(exchange_name=None, authfile=AUTHFILE):
-    """
-    read all credentials, return all of them, or only for one exchange 
-    """
-    try:
-        with open(authfile) as f:
-            A = json.load(f)
-        if not exchange_name:
-            keys=A
-        else:
-            keys=A[exchange_name]
-    except:
-        msg="credentials for '%s' missing from auth file, or no auth file. Call addAuth.py." % exchange_name
-        raise Exception(msg)
-    
-    return keys
-
 
 if __name__ == '__main__':
+    c=credentials(exchange_name="bittrex"); print(c); exit()
+    
     printURLs()
     askAndAddOne()
     

@@ -4,7 +4,7 @@ Created on 21 Jul 2020
 @author: andreas
 '''
 
-from addAuth import AUTHFILE
+# from addAuth import AUTH_FILE
 
 import json
 import hmac

@@ -56,10 +56,18 @@ def thisIsWhereTheMagicHappens():
     return data
 
 
+@route('/credentials')
+def testing_credentials():
+    """
+    just for debugging heroku environment variables
+    !!! switch off in production !!!
+    """
+    import addAuth
+    return addAuth.credentials()
+
 @route('/coinbalances.csv')
 def csv():
     return thisIsWhereTheMagicHappens()
-    # return template('csvtest', output=data)
 
 @route('/coinbalances.pre')
 def pre():
