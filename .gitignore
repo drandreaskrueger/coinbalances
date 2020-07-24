@@ -1,6 +1,7 @@
+auth.json
+auth*.json
+env
 .project
 .pydevproject
-auth.json
 __pycache__
-env
-/auth_revealed-to-heroku_thus-deleted.json
+
