@@ -29,11 +29,11 @@ def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
         # perhaps the env-variable is set:
         j = os.getenv(env_variable)
         if j:
-            print("environment variable was set, great.")
+            # print("environment variable was set, great.")
             A = json.loads(j)
-        # or if not, read the file from disk:
-        else:
-            print("environment variable not set, trying auth file now:")
+        
+        else: 
+            # print("environment variable not set, trying auth file now.")
             with open(authfile) as f:
                 A = json.load(f)
         
@@ -51,28 +51,28 @@ def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
 ###########################
 # all this is file based:
 
+EXCHANGES={"bitstamp": {"keys": "https://www.bitstamp.net/account/security/api/",
+                        "rights suggested" : "Account balance, User transactions",
+                        "API infos" : "https://www.bitstamp.net/api/"},
+           "bittrex" : {"keys": "https://global.bittrex.com/Manage?view=api",
+                        "rights suggested": "READ INFO yes, TRADE no, WITHDRAW no",
+                        "API infos" : "https://bittrex.github.io/api/v3"},
+           "bitmex" : {"API infos" : "https://www.bitmexApi.com/api/explorer/#!/User/User_getWallet",
+                       "keys" : "https://www.bitmexApi.com/app/apiKeys",
+                       "rights suggested" : "- (read only)"},
+           "binance" : {"keys" : "https://www.binance.com/en/usercenter/settings/api-management",
+                        "rights suggested": "Edit restrictions ... DISABLE Enable Trading ... Save",
+                        "API infos": "https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data"},
+           }
+
 def printURLs():
     """
     printed when adding new creds
     """
-    exchanges={"bitstamp": {"keys": "https://www.bitstamp.net/account/security/api/",
-                            "rights suggested" : "Account balance, User transactions",
-                            "API infos" : "https://www.bitstamp.net/api/"},
-               "bittrex" : {"keys": "https://global.bittrex.com/Manage?view=api",
-                            "rights suggested": "READ INFO yes, TRADE no, WITHDRAW no",
-                            "API infos" : "https://bittrex.github.io/api/v3"},
-               "bitmex" : {"API infos" : "https://www.bitmexApi.com/api/explorer/#!/User/User_getWallet",
-                           "keys" : "https://www.bitmexApi.com/app/apiKeys",
-                           "rights suggested" : "- (read only)"},
-               "binance" : {"keys" : "https://www.binance.com/en/usercenter/settings/api-management",
-                            "rights suggested": "Edit restrictions ... DISABLE Enable Trading ... Save",
-                            "API infos": "https://binance-docs.github.io/apidocs/spot/en/#query-open-oco-user_data"},
-               }
-    
     print("create READ ONLY keys in these places:")
-    pprint(exchanges, width=100)
+    pprint(EXCHANGES, width=100)
     print()
-    return exchanges
+    return EXCHANGES
 
 def loadOrNew(authfile):
     try:
@@ -94,9 +94,16 @@ def ask():
     """
     
     answer = ""
-    while not answer:
+    while not answer or answer not in EXCHANGES:
         answer = input("exchange name: ")
+        if answer not in EXCHANGES:
+            print("Sorry '%s' not supported at the moment, only these: %s" %(answer, list(EXCHANGES.keys())))
     exchange_name = answer 
+    
+    infos = EXCHANGES[exchange_name]
+    print ("Good, now log into %s and open to this page: %s" % (exchange_name, infos['keys']))
+    print ("and create a key with READ-ONLY access rights, probably: '%s'." % infos['rights suggested'])
+    print ("Then copy the keypair here: API key, SECRET key; and give it a 'friendly name' that helps you to find it later.\n")
     
     keys=[]
     for q in ("API key", "SECRET key", "account friendly name"):
@@ -131,9 +138,9 @@ def askAndAddOne(authfile=AUTH_FILE):
 
 
 if __name__ == '__main__':
-    c=credentials(exchange_name="bittrex"); print(c); exit()
+    # c=credentials(exchange_name="bittrex"); print(c); exit()
     
-    printURLs()
+    # printURLs()
     askAndAddOne()
     
     

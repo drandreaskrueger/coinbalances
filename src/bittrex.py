@@ -4,8 +4,6 @@ Created on 21 Jul 2020
 @author: andreas
 '''
 
-# from addAuth import AUTH_FILE
-
 import json
 import hmac
 import time
@@ -13,7 +11,7 @@ import hashlib
 import requests
 from pprint import pprint
 
-from addAuth import credentials
+from authentication import credentials
 
 def parseData(data):
     """

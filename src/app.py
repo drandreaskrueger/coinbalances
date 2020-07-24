@@ -62,8 +62,8 @@ def testing_credentials():
     just for debugging heroku environment variables
     !!! switch off in production !!!
     """
-    import addAuth
-    return addAuth.credentials()
+    import authentication
+    return authentication.credentials()
 
 @route('/coinbalances.csv')
 def csv():
