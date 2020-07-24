@@ -24,9 +24,12 @@ def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
     
     read all credentials, return all of them, or only for one exchange 
     """
-    pprint(os.environ)
     j = os.getenv(env_variable)
-    print (j); return j
+    print (j); 
+    k =  os.getenv(env_variable+"x")
+    print(k)
+    
+    return j
     
     try:
         with open(authfile) as f:
