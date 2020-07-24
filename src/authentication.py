@@ -1,7 +1,10 @@
 '''
 Created on 21 Jul 2020
 
-@author: andreas
+@author:    Dr Andreas Krueger 
+@contact:   https://github.com/drandreaskrueger/coinbalances
+@copyright: (2020) by me. 
+@license:   Donation ware. Free to use, but some donation would be nice too. See README.md.
 
 @TODO: (not my problem but) if there are several accounts at the SAME exchange, 
        only the last one will survive because the older one gets overwritten. 

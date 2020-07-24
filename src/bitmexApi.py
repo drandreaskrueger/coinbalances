@@ -1,7 +1,11 @@
 '''
 Created on 21 Jul 2020
 
-@author: andreas
+@author:    Dr Andreas Krueger 
+@contact:   https://github.com/drandreaskrueger/coinbalances
+@copyright: (2020) by me. 
+@license:   Donation ware. Free to use, but some donation would be nice too. See README.md.
+
 
 @info support ticket:
         If you would like to get the Available and Wallet Balance from our API, 
