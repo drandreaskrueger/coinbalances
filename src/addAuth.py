@@ -29,9 +29,11 @@ def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
         # perhaps the env-variable is set:
         j = os.getenv(env_variable)
         if j:
+            print("environment variable was set, great.")
             A = json.loads(j)
         # or if not, read the file from disk:
         else:
+            print("environment variable not set, trying auth file now:")
             with open(authfile) as f:
                 A = json.load(f)
         
