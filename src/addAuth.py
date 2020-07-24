@@ -24,22 +24,23 @@ def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
     
     read all credentials, return all of them, or only for one exchange 
     """
-    j = os.getenv(env_variable)
-    print (j); 
-    k =  os.getenv(env_variable+"x")
-    print(k)
-    
-    return j
-    
+
     try:
-        with open(authfile) as f:
-            A = json.load(f)
+        # perhaps the env-variable is set:
+        j = os.getenv(env_variable)
+        if j:
+            A = json.loads(j)
+        # or if not, read the file from disk:
+        else:
+            with open(authfile) as f:
+                A = json.load(f)
+        
         if not exchange_name:
             keys=A
         else:
             keys=A[exchange_name]
     except:
-        msg="credentials for '%s' missing from auth file / env variable, or there is no auth file / variable. Call addAuth.py." % exchange_name
+        msg="credentials for '%s' missing from auth file / env variable, OR there is no auth file / variable. Call addAuth.py." % exchange_name
         raise Exception(msg)
     
     return keys
