@@ -61,13 +61,13 @@ def credentials(exchange_name=None, env_variable=AUTH_ENV, authfile=AUTH_FILE):
 # all this is file based:
 
 EXCHANGES={"bitstamp": {"keys": "https://www.bitstamp.net/account/security/api/",
-                        "rights suggested" : "Account balance, User transactions",
+                        "rights suggested" : "Account balance",
                         "API infos" : "https://www.bitstamp.net/api/"},
            "bittrex" : {"keys": "https://global.bittrex.com/Manage?view=api",
                         "rights suggested": "READ INFO yes, TRADE no, WITHDRAW no",
                         "API infos" : "https://bittrex.github.io/api/v3"},
            "bitmex" : {"API infos" : "https://www.bitmexApi.com/api/explorer/#!/User/User_getWallet",
-                       "keys" : "https://www.bitmexApi.com/app/apiKeys",
+                       "keys" : "https://www.bitmex.com/app/apiKeys",
                        "rights suggested" : "- (read only)"},
            "binance" : {"keys" : "https://www.binance.com/en/usercenter/settings/api-management",
                         "rights suggested": "Edit restrictions ... DISABLE Enable Trading ... Save",

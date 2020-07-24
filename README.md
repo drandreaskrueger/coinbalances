@@ -13,8 +13,9 @@ pip3 install requests pip bitmex bitmex-ws pandas bottle
 ### API keys and secrets
 Keys are added to the `auth.py` file, one by one:
 
+    source env/bin/activate
     cd src
-    python3 addAuth.py
+    python3 authentication.py
     
 That  `auth.py` is human readable, open it in any text editor. 
 
@@ -28,6 +29,7 @@ You should also read up on how to harden bottle apps. Perhaps not have it listen
 
 ### run app
 
+    source env/bin/activate
     cd src
     python3 app.py
     
