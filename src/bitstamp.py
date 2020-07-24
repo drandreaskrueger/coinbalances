@@ -19,7 +19,7 @@ from pprint import pprint
 #else:
 #    from urllib import urlencode
 
-from addAuth import credentials
+from authentication import credentials
 
 def parseData(data):
     """

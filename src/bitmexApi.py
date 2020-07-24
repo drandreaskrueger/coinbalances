@@ -19,7 +19,7 @@ import bitmex # pip3 install bitmex
 
 import warnings
 
-from addAuth import credentials
+from authentication import credentials
 
 """
 # websockets 

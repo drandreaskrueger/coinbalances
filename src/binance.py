@@ -12,7 +12,7 @@ import time, hmac, hashlib
 import requests
 # from requests_http_signature import HTTPSignatureAuth as sign
 
-from addAuth import credentials
+from authentication import credentials
 
 def parseData(data):
     """

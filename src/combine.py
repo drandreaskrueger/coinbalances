@@ -4,9 +4,9 @@ Created on 23 Jul 2020
 @author: andreas
 '''
 
-import threading, time
+import threading, time, warnings
 import pandas, numpy # pip install pandas
-from pprint import pprint
+#from pprint import pprint
 
 import binance, bitstamp, bittrex, bitmexApi
 CALLS=[binance.binanceWrapped,
@@ -45,7 +45,7 @@ def pandas_whole_table():
     pandas.set_option('display.width', 300)
 
 
-class coinbalances_no_coins_error(Exception): pass
+class coinbalances_no_coins_warning(Exception): pass
 class coinbalances_no_accounts_error(Exception): pass
 
 def one_table(API_results):
@@ -68,9 +68,9 @@ def one_table(API_results):
     coins = sorted(list(set(coins))) # make coins list unique and sort alphabetically
     
     if not len(columns):
-        raise coinbalances_no_accounts_error("No exchange APIkey&secret found, run addAuth.py to add credentials to auth.json.")
+        raise coinbalances_no_accounts_error("No exchange APIkey&secret found, run authentication.py to add credentials to auth.json.")
     if not len(coins):
-        raise coinbalances_no_coins_error("Why bother if you own no coins on the given exchanges?")
+        warnings.warn("Why bother if you own zero coins on all given exchanges?", coinbalances_no_coins_warning)
     
     # empty table:
     df = pandas.DataFrame(numpy.zeros((len(coins), len(columns))), 
