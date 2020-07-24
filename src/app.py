@@ -55,15 +55,14 @@ def thisIsWhereTheMagicHappens():
         print (logging)
     return data
 
-
-@route('/credentials')
-def testing_credentials():
-    """
-    just for debugging heroku environment variables
-    !!! switch off in production !!!
-    """
-    import authentication
-    return authentication.credentials()
+#@route('/credentials')
+#def testing_credentials():
+#    """
+#    just for debugging heroku environment variables
+#    !!! switch off in production !!!
+#    """
+#    import authentication
+#    return authentication.credentials()
 
 @route('/coinbalances.csv')
 def csv():
