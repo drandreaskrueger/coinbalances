@@ -1,41 +1,44 @@
-# coinbalances
+# coinbalances can run on heroku
 
-pull balances from several exchanges, serve as CSV
+### attention: Possible loss of funds or privacy ahead.
+Be VERY careful. Not sure whether I would trust heroku with my exchange keys. But I wanted to try out if I can make it work. Please give feedback, and suggestions; I am new to this.
 
-### dependencies
+Use only READ ONLY keys! Be VERY careful. Or even better - do NOT do this. If you are a risk taker, continue, lol ... 
+
+Probably best: Just run this on your own server, not on heroku. 
+
+### changes for heroku
+Setting & reading environment variables in heroku, see https://devcenter.heroku.com/articles/config-vars#accessing-config-var-values-from-code. I got that working.
+
+## steps I took for heroku
+### create heroku app
+
+Create your account at https://www.heroku.com/ the **free tier** will work for this!
+
+Then on the commandline, inside your fork of this repo: login, create, view, add a remote to this repo, view; then push the code, and watch what they are printing.
+
 ```
-python3 -m venv env
-source env/bin/activate
-pip3 install -U pip wheel
-pip3 install requests pip bitmex bitmex-ws pandas
+heroku login --interactive
+heroku create coinbalances
+heroku apps
+heroku git:remote -a coinbalances
+git remote -v
+git push heroku master
 ```
 
-### API keys and secrets
+Then comes the clever move, so that we never have to check in the `auth.json` with your credentials anywhere - we set its contents as an environment variable.
 
-    cd src
-    python3 addAuth.py
+Then just open the app, WHILE you watch the logs:
+```
+heroku config:set COINBALANCES_AUTH="$(cat auth.json)"
 
-### security
-all this is highly dangerous; anyone getting their hands on your keys, can at least READ your balances, perhaps even worse things can happen. At least do this:
+heroku open
+heroku logs --tail
+```
 
-* use READ ONLY keys for API access to your exchanges! The `addAuth.py` prints some hints for that.  
-* `chmod 600 auth.json` = to make the file readable only for this user. BUT that's also no real protection ...
-    
-### run app
+Good?
 
-    cd src
-    python3 app.py
-    
-then open browser at http://localhost:8080/
+Feedback?
 
-
-
-### heroku
-UNREADY. Be VERY careful. Use only READ ONLY keys!
-
-Simpler approach: Simply run this as a heroku app, and check in your READ ONLY keys (APIkey, APIsecret) ... but then ... not a good idea, really.  
-OR better approach: Extend the existing code with setting & reading environment variables in heroku, see https://devcenter.heroku.com/articles/config-vars#accessing-config-var-values-from-code (not implemented yet).
-
-Or just run this on your own server, not on heroku. 
-
-Still, always be very careful with your API keys. USE READ ONLY keys !
+## support me
+See bottom of [README.md](README.md).
