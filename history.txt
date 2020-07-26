@@ -1,5 +1,6 @@
-15.5 hours
+17 hours
 
+v0.5.1 26/07/2020 21:10-22:40 no index for table rows; output --> integrated into my overall portfolio. 
 v0.5.0 24/07/2020 02:05-06:20 (47 min pause) heroku README, deploy, env vars, it works, hooray; change UX in authentication.py; many more things = see commits...
 v0.3.0 23/07/2020 03:00-07:00 binance ~ready; multithreaded calling; combine into one table; bottle app; heroku ideas; security hints.
 v0.2.0 21/07/2020 23:42-02:17 bitmex ready
