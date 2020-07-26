@@ -84,7 +84,7 @@ def pre():
 def table():
     data = thisIsWhereTheMagicHappens()
     df = pandas.read_csv(StringIO(data)) 
-    ht=df.to_html(border=0) 
+    ht=df.to_html(border=0, index=False) 
     return template('html-table', output=ht)
 
 
