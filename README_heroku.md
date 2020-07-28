@@ -43,3 +43,6 @@ Feedback?
 
 ## support me
 See bottom of [README.md](README.md).
+
+## disclaimer
+No guarantees no warranties. All your funds might vanish. Read code before you run it. I take zero responsibility. Honestly, you better do not use this at all.

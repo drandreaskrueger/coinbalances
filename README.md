@@ -63,3 +63,5 @@ This was fun, but it also costed a bit of my precious life. Feel free to show me
 
 Contact me for other currencies. Thank you very much. 
 
+## disclaimer
+No guarantees no warranties. All your funds might vanish. Read code before you run it. I take zero responsibility. Honestly, you better do not use this at all. 
