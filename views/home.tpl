@@ -3,7 +3,7 @@
     <title>coinbalances</title>
   </head>
   <body>
-      <h1>coin balances v0.5.0</h1>
+      <h1>coin balances v0.5.2</h1>
       <p>Welcome</p>
       <p>Collect balances, merge into one table, including totals column: 
       <ul>
