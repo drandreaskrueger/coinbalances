@@ -11,6 +11,7 @@ Probably best: Just run this on your own server, not on heroku.
 Setting & reading environment variables in heroku, see https://devcenter.heroku.com/articles/config-vars#accessing-config-var-values-from-code. I got that working.
 
 ## steps I took for heroku
+Before you do this, have it sucessfully running on your local machine first, see [README.md##run-app](README.md##run-app), incl your keys etc. Only then ...
 ### create heroku app
 
 Create your account at https://www.heroku.com/ the **free tier** will work for this!

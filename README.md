@@ -6,6 +6,7 @@ Pull my balances from 4 exchanges, then serve a combined & summed table as CSV a
 The [examples/](examples/) folder contains one .CSV example, turned into the several outputs that the server generates:
 
 ![examples/example-outputs-preview.png](examples/example-outputs-preview.png)
+
 There is a [larger image](examples/example-outputs.png) too, and the source files.
 
 ## install and run
@@ -53,12 +54,12 @@ Be VERY careful. Not sure whether I would trust heroku with my exchange keys. Bu
 Please open an issue if you want to do that. I'd be thrilled to give you some hints. Or if you are a pro, just do it - and please make a pull request then.
 
 ### solve some issues
-
+There might be [open issues](https://github.com/drandreaskrueger/coinbalances/issues) that you can work on if you want to.
 
 ## support me
 This was fun, but it also costed a bit of my precious life. Feel free to show me that you like it:
 
-[BTC] 1N65GAaeamWLutNqfXoau8zfYFVjWzh7CU  
+    [BTC] 1N65GAaeamWLutNqfXoau8zfYFVjWzh7CU  
 
 Contact me for other currencies. Thank you very much. 
 
