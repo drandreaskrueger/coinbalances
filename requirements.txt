@@ -3,4 +3,4 @@ bitmex-ws==0.4.0
 bottle==0.12.18
 numpy==1.19.1
 pandas==1.0.5
-requests==2.24.0
+requests==2.31.0
